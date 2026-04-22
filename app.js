@@ -25,7 +25,7 @@ let selectedCompany = null;
 let currentInvoiceSeq = 1;
 
 // Initialize
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initializeApp();
 });
 
@@ -116,7 +116,7 @@ async function initializeInvoicePage() {
     document.getElementById('companyEmail').textContent = selectedCompany.email;
 
     // Set default source
-    document.getElementById('source').value = 'Pattunoolchatram';
+    document.getElementById('source').value = 'PATTUNOOLCHATRAM';
 
     await fetchNextInvoiceNumber();
     updateDateTime();
@@ -229,7 +229,7 @@ function printInvoice() {
 async function newInvoice() {
     document.getElementById('invoiceForm').reset();
     // Restore default source
-    document.getElementById('source').value = 'Pattunoolchatram';
+    document.getElementById('source').value = 'PATTUNOOLCHATRAM';
     await fetchNextInvoiceNumber();
     updateDateTime();
     showPage('invoicePage');
