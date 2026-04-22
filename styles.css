@@ -1,0 +1,697 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #1a1a2e;
+    --secondary: #16213e;
+    --accent: #e94560;
+    --accent-light: #ff6b88;
+    --bg: #0f1419;
+    --text: #eaeaea;
+    --text-muted: #9ca3af;
+    --border: #2a2a3e;
+    --success: #00d4aa;
+}
+
+body {
+    font-family: 'Inter', 'Crimson Pro', sans-serif;
+    background: linear-gradient(135deg, var(--bg) 0%, var(--primary) 100%);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+}
+
+.page {
+    display: none;
+    height: 100vh;
+    padding: 1rem;
+    overflow: hidden;
+}
+
+.page.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   LOGIN PAGE
+   ============================================================ */
+.login-container {
+    background: rgba(22, 33, 62, 0.85);
+    backdrop-filter: blur(12px);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem 2.5rem 2rem;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.login-icon { margin-bottom: 0.75rem; }
+
+.login-header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    line-height: 0.9;
+    letter-spacing: 4px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.75rem;
+}
+
+.login-decoration {
+    width: 60px;
+    height: 4px;
+    background: var(--accent);
+    margin: 0 auto;
+    border-radius: 2px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.form-group label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.form-group input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    color: var(--text);
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.btn-login {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+    border: none;
+    border-radius: 10px;
+    padding: 1rem;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 0.5rem;
+}
+
+.btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(233, 69, 96, 0.4);
+}
+
+.error-message {
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-align: center;
+    min-height: 18px;
+}
+
+/* ============================================================
+   COMPANY SELECTION PAGE
+   ============================================================ */
+.company-select-container {
+    text-align: center;
+    max-width: 700px;
+    width: 100%;
+}
+
+.company-select-header { margin-bottom: 2rem; }
+
+.company-select-header h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    letter-spacing: 3px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-top: 0.5rem;
+}
+
+.company-select-subtitle {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-top: 0.25rem;
+}
+
+.company-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.company-select-card {
+    background: rgba(22, 33, 62, 0.85);
+    backdrop-filter: blur(12px);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.35s ease;
+    text-align: center;
+}
+
+.company-select-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-6px);
+    box-shadow: 0 15px 40px rgba(233, 69, 96, 0.25);
+    background: rgba(22, 33, 62, 0.95);
+}
+
+.company-card-icon { margin-bottom: 1rem; }
+
+.company-card-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+}
+
+.company-card-gstin {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
+}
+
+.company-card-phone {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.btn-back-login {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: color 0.3s;
+    font-family: 'Inter', sans-serif;
+}
+
+.btn-back-login:hover { color: var(--accent); }
+
+/* ============================================================
+   INVOICE PAGE
+   ============================================================ */
+.invoice-container {
+    background: rgba(22, 33, 62, 0.9);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 1.25rem 1.75rem;
+    max-width: 960px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.company-header {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.25rem;
+    align-items: center;
+    border: 1px solid var(--border);
+}
+
+.company-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo-circle {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4);
+}
+
+.company-logo h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    line-height: 1.15;
+}
+
+.company-details p,
+.invoice-meta p {
+    font-size: 0.78rem;
+    margin-bottom: 0.25rem;
+    color: var(--text-muted);
+}
+
+.company-details strong,
+.invoice-meta strong { color: var(--text); }
+
+.invoice-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.form-section-right {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.form-section {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.5rem;
+}
+
+.section-number {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+    color: white;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.section-header h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+}
+
+.vehicle-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.vehicle-option input[type="radio"] { display: none; }
+
+.vehicle-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 0.6rem 0.75rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.vehicle-option input[type="radio"]:checked + .vehicle-card {
+    border-color: var(--accent);
+    background: rgba(233, 69, 96, 0.1);
+    transform: scale(1.03);
+}
+
+.vehicle-plate {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.15rem;
+    letter-spacing: 2px;
+    color: var(--text);
+}
+
+.input-field {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 0.6rem 0.85rem;
+    color: var(--text);
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.price-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.currency {
+    position: absolute;
+    left: 0.85rem;
+    font-size: 1.2rem;
+    color: var(--accent);
+    font-weight: bold;
+}
+
+.price-input .input-field { padding-left: 2.25rem; }
+
+.form-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.btn-save,
+.btn-logout,
+.btn-print,
+.btn-new,
+.btn-switch-company {
+    flex: 1;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.btn-save, .btn-print {
+    background: linear-gradient(135deg, var(--success) 0%, #00ffcc 100%);
+    color: var(--primary);
+}
+
+.btn-save:hover, .btn-print:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 212, 170, 0.4);
+}
+
+.btn-logout, .btn-new {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    border: 2px solid var(--border);
+}
+
+.btn-switch-company {
+    background: rgba(233, 69, 96, 0.15);
+    color: var(--accent-light);
+    border: 2px solid rgba(233, 69, 96, 0.3);
+}
+
+.btn-logout:hover, .btn-new:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--accent);
+}
+
+.btn-switch-company:hover {
+    background: rgba(233, 69, 96, 0.25);
+    border-color: var(--accent);
+}
+
+/* ============================================================
+   PRINT PREVIEW (on-screen view)
+   ============================================================ */
+.print-container {
+    background: white;
+    color: #111;
+    width: 210mm;
+    padding: 18mm 20mm;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    font-family: 'Inter', sans-serif;
+}
+
+/* Small title label */
+.print-small-title {
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #888;
+    margin-bottom: 4px;
+}
+
+/* Large company name */
+.print-company-name {
+    text-align: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem;
+    letter-spacing: 4px;
+    color: #1a1a2e;
+    line-height: 1;
+    margin-bottom: 6px;
+}
+
+.print-company-block {
+    text-align: center;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 3px solid #1a1a2e;
+}
+
+.print-company-addr {
+    font-size: 0.8rem;
+    color: #444;
+    margin-bottom: 3px;
+}
+
+.print-company-contact {
+    font-size: 0.72rem;
+    color: #666;
+}
+
+/* Invoice # / Date row */
+.print-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f5f7fa;
+    padding: 8px 14px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    border: 1px solid #e0e0e0;
+}
+
+.print-info-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.print-info-value {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #111;
+    margin-left: 6px;
+}
+
+.print-info-separator { color: #ccc; }
+
+.print-info-right {
+    display: flex;
+    align-items: center;
+}
+
+/* 2×2 Grid Table — all cells same size */
+.print-grid-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-bottom: 0;
+}
+
+.print-grid-table td {
+    width: 50%;
+    padding: 18px 20px;
+    border: 2px solid #ddd;
+    vertical-align: top;
+}
+
+.print-cell-label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #888;
+    margin-bottom: 6px;
+}
+
+.print-cell-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 2px;
+}
+
+/* Total bar */
+.print-total-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1a1a2e;
+    color: white;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.print-total-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 2px;
+}
+
+.print-footer-note {
+    text-align: center;
+    font-size: 0.72rem;
+    color: #999;
+    font-style: italic;
+    margin-top: 20px;
+}
+
+.print-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    justify-content: center;
+}
+
+/* ============================================================
+   PRINT MEDIA — removes ALL browser headers/footers
+   ============================================================ */
+@page {
+    size: A4;
+    margin: 0;
+}
+
+@media print {
+    html, body {
+        background: white !important;
+        height: auto;
+        overflow: visible;
+        margin: 0;
+        padding: 0;
+    }
+
+    .page { display: none !important; }
+
+    #printPage {
+        display: block !important;
+        padding: 0;
+        height: auto;
+    }
+
+    .no-print,
+    .print-actions { display: none !important; }
+
+    .print-container {
+        box-shadow: none;
+        margin: 0;
+        width: 100%;
+        padding: 15mm 20mm;
+    }
+
+    .print-company-name {
+        color: #1a1a2e !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .print-grid-table td {
+        border-color: #ccc !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .print-total-bar {
+        background: #1a1a2e !important;
+        color: white !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .print-info-row {
+        background: #f5f7fa !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+    .company-header { grid-template-columns: 1fr; gap: 0.75rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .vehicle-grid { flex-direction: row; }
+    .company-cards-grid { grid-template-columns: 1fr; }
+    .print-info-row { flex-direction: column; gap: 0.5rem; }
+    .page { overflow-y: auto; }
+}

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transport Invoice</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231a1a2e'/%3E%3Cpath d='M12 38h4l4-10h18v-6H16a4 4 0 0 0-4 4v12zm0 2a4 4 0 0 0 4 4h1.2a5 5 0 0 1 9.6 0h10.4a5 5 0 0 1 9.6 0H48a4 4 0 0 0 4-4v-6l-6-8H38v14H12z' fill='%23e94560'/%3E%3Ccircle cx='22' cy='44' r='3' fill='%2300d4aa'/%3E%3Ccircle cx='42' cy='44' r='3' fill='%2300d4aa'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="page active">
+        <div class="login-container">
+            <div class="login-header">
+                <div class="login-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+                        <path d="M8 38h4l4-10h18v-8H12a4 4 0 0 0-4 4v14zm0 2a4 4 0 0 0 4 4h1.2a5 5 0 0 1 9.6 0h10.4a5 5 0 0 1 9.6 0H48a4 4 0 0 0 4-4v-6l-6-8H38v14H8z" fill="#e94560"/>
+                        <circle cx="18" cy="44" r="3" fill="#00d4aa"/>
+                        <circle cx="42" cy="44" r="3" fill="#00d4aa"/>
+                    </svg>
+                </div>
+                <h1>TRANSPORT<br>INVOICE</h1>
+                <div class="login-decoration"></div>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="adminNumber">Admin Mobile</label>
+                    <input type="text" id="adminNumber" placeholder="Enter mobile number" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="btn-login">Access System</button>
+                <div id="loginError" class="error-message"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Company Selection Page -->
+    <div id="companyPage" class="page">
+        <div class="company-select-container">
+            <div class="company-select-header">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="48" height="48">
+                    <path d="M8 38h4l4-10h18v-8H12a4 4 0 0 0-4 4v14zm0 2a4 4 0 0 0 4 4h1.2a5 5 0 0 1 9.6 0h10.4a5 5 0 0 1 9.6 0H48a4 4 0 0 0 4-4v-6l-6-8H38v14H8z" fill="#e94560"/>
+                    <circle cx="18" cy="44" r="3" fill="#00d4aa"/>
+                    <circle cx="42" cy="44" r="3" fill="#00d4aa"/>
+                </svg>
+                <h2>Select Company</h2>
+                <p class="company-select-subtitle">Choose a company to create invoices for</p>
+            </div>
+            <div class="company-cards-grid" id="companyCardsGrid"></div>
+            <button class="btn-back-login" onclick="logout()">← Back to Login</button>
+        </div>
+    </div>
+
+    <!-- Invoice Entry Page -->
+    <div id="invoicePage" class="page">
+        <div class="invoice-container">
+            <div class="company-header">
+                <div class="company-logo">
+                    <div class="logo-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="36" height="36">
+                            <path d="M8 38h4l4-10h18v-8H12a4 4 0 0 0-4 4v14zm0 2a4 4 0 0 0 4 4h1.2a5 5 0 0 1 9.6 0h10.4a5 5 0 0 1 9.6 0H48a4 4 0 0 0 4-4v-6l-6-8H38v14H8z" fill="white"/>
+                            <circle cx="18" cy="44" r="3" fill="#00d4aa"/>
+                            <circle cx="42" cy="44" r="3" fill="#00d4aa"/>
+                        </svg>
+                    </div>
+                    <h1 id="companyName">Company Name</h1>
+                </div>
+                <div class="company-details">
+                    <p><strong>Mobile:</strong> <span id="companyMobile">Mobile Number</span></p>
+                    <p><strong>GSTIN:</strong> <span id="gstinNumber">GSTIN Number</span></p>
+                    <p><strong>Email:</strong> <span id="companyEmail">Email</span></p>
+                </div>
+                <div class="invoice-meta">
+                    <p><strong>Date:</strong> <span id="currentDate"></span></p>
+                    <p><strong>Time:</strong> <span id="currentTime"></span></p>
+                    <p><strong>Invoice #:</strong> <span id="invoiceNumber"></span></p>
+                </div>
+            </div>
+
+            <form id="invoiceForm" class="invoice-form">
+                <div class="form-row">
+                    <div class="form-section">
+                        <div class="section-header">
+                            <div class="section-number">01</div>
+                            <h3>Vehicle Selection</h3>
+                        </div>
+                        <div class="vehicle-grid">
+                            <label class="vehicle-option">
+                                <input type="radio" name="vehicle" value="TN87A4011" required>
+                                <div class="vehicle-card">
+                                    <div class="vehicle-plate">TN87A4011</div>
+                                </div>
+                            </label>
+                            <label class="vehicle-option">
+                                <input type="radio" name="vehicle" value="TN87E2751" required>
+                                <div class="vehicle-card">
+                                    <div class="vehicle-plate">TN87E2751</div>
+                                </div>
+                            </label>
+                            <label class="vehicle-option">
+                                <input type="radio" name="vehicle" value="TH87F9707" required>
+                                <div class="vehicle-card">
+                                    <div class="vehicle-plate">TH87F9707</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-section-right">
+                        <div class="form-section">
+                            <div class="section-header">
+                                <div class="section-number">02</div>
+                                <h3>Source</h3>
+                            </div>
+                            <input type="text" id="source" class="input-field" value="Pattunoolchatram" placeholder="Enter source" required>
+                        </div>
+
+                        <div class="form-section">
+                            <div class="section-header">
+                                <div class="section-number">03</div>
+                                <h3>Destination</h3>
+                            </div>
+                            <input type="text" id="destination" class="input-field" placeholder="Enter destination address" required>
+                        </div>
+
+                        <div class="form-section">
+                            <div class="section-header">
+                                <div class="section-number">04</div>
+                                <h3>Price</h3>
+                            </div>
+                            <div class="price-input">
+                                <span class="currency">₹</span>
+                                <input type="number" id="price" class="input-field" placeholder="0.00" step="0.01" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-save">Save & Preview</button>
+                    <button type="button" class="btn-switch-company" onclick="switchCompany()">Switch Company</button>
+                    <button type="button" class="btn-logout" onclick="logout()">Logout</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Print Preview Page -->
+    <div id="printPage" class="page">
+        <div class="print-container" id="printArea">
+            <!-- Small Title -->
+            <p class="print-small-title">TRANSPORT INVOICE</p>
+
+            <!-- Large Company Name -->
+            <h1 class="print-company-name" id="printCompanyName"></h1>
+            <div class="print-company-block">
+                <p class="print-company-addr" id="printAddress"></p>
+                <p class="print-company-contact">
+                    Phone: <span id="printMobile"></span> &nbsp;|&nbsp;
+                    GSTIN: <span id="printGSTIN"></span> &nbsp;|&nbsp;
+                    Email: <span id="printEmail"></span>
+                </p>
+            </div>
+
+            <!-- Invoice # and Date/Time row -->
+            <div class="print-info-row">
+                <div class="print-info-left">
+                    <span class="print-info-label">Invoice No:</span>
+                    <span class="print-info-value" id="printInvoiceNum"></span>
+                </div>
+                <div class="print-info-right">
+                    <span class="print-info-label">Date:</span>
+                    <span class="print-info-value" id="printDate"></span>
+                    <span class="print-info-separator">&nbsp;|&nbsp;</span>
+                    <span class="print-info-label">Time:</span>
+                    <span class="print-info-value" id="printTime"></span>
+                </div>
+            </div>
+
+            <!-- 2x2 Grid Table -->
+            <table class="print-grid-table">
+                <tbody>
+                    <tr>
+                        <td>
+                            <span class="print-cell-label">Source</span>
+                            <span class="print-cell-value" id="printSource"></span>
+                        </td>
+                        <td>
+                            <span class="print-cell-label">Destination</span>
+                            <span class="print-cell-value" id="printDestination"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="print-cell-label">Vehicle Number</span>
+                            <span class="print-cell-value" id="printVehicle"></span>
+                        </td>
+                        <td>
+                            <span class="print-cell-label">Price</span>
+                            <span class="print-cell-value" id="printPrice"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Total -->
+            <div class="print-total-bar">
+                <span>Total Amount</span>
+                <span class="print-total-value">₹<span id="printTotal"></span></span>
+            </div>
+
+            <!-- Footer -->
+            <p class="print-footer-note">This is a computer-generated invoice</p>
+        </div>
+
+        <div class="print-actions no-print">
+            <button class="btn-print" onclick="printInvoice()">Print Invoice</button>
+            <button class="btn-new" onclick="newInvoice()">New Invoice</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
