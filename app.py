@@ -15,15 +15,47 @@ CORS(app)
 MONGODB_URI = os.getenv('MONGODB_URI', 'mongodb+srv://username:password@cluster.mongodb.net/')
 DATABASE_NAME = os.getenv('DATABASE_NAME', 'transport_invoice')
 
-# Initialize MongoDB connection
-try:
-    client = MongoClient(MONGODB_URI)
-    db = client[DATABASE_NAME]
-    invoices_collection = db['invoices']
-    admin_collection = db['admin']
-    print("Connected to MongoDB Atlas successfully!")
-except Exception as e:
-    print(f"Error connecting to MongoDB: {e}")
+# Initialize MongoDB connection variables
+client = None
+db = None
+invoices_collection = None
+admin_collection = None
+
+def get_db():
+    global client, db, invoices_collection, admin_collection
+    if db is not None:
+        return db
+    
+    # Try primary MONGODB_URI
+    try:
+        print(f"Connecting to MongoDB URI...")
+        client = MongoClient(MONGODB_URI, serverSelectionTimeoutMS=3000)
+        # Force connection check
+        client.server_info()
+        db = client[DATABASE_NAME]
+        invoices_collection = db['invoices']
+        admin_collection = db['admin']
+        print("Connected to MongoDB Atlas successfully!")
+        return db
+    except Exception as e:
+        print(f"Error connecting to MongoDB Atlas: {e}")
+        
+        # Fallback to local MongoDB
+        try:
+            local_uri = "mongodb://127.0.0.1:27017/"
+            print(f"Attempting fallback to local MongoDB: {local_uri}")
+            client = MongoClient(local_uri, serverSelectionTimeoutMS=3000)
+            client.server_info()
+            db = client[DATABASE_NAME]
+            invoices_collection = db['invoices']
+            admin_collection = db['admin']
+            print("Connected to local MongoDB successfully!")
+            return db
+        except Exception as local_err:
+            print(f"Failed to connect to local MongoDB: {local_err}")
+            # Keep variables as None, do not crash the process.
+            # Route handlers will return 503 Service Unavailable if they need DB.
+            return None
 
 # Admin credentials (stored in database)
 ADMIN_NUMBER = "9894589418"
@@ -31,14 +63,19 @@ ADMIN_PASSWORD = "12345678"
 
 # Initialize admin user in database
 def initialize_admin():
-    admin = admin_collection.find_one({"admin_number": ADMIN_NUMBER})
-    if not admin:
-        admin_collection.insert_one({
-            "admin_number": ADMIN_NUMBER,
-            "password": ADMIN_PASSWORD,
-            "created_at": datetime.utcnow()
-        })
-        print("Admin user initialized")
+    try:
+        get_db()
+        if admin_collection is not None:
+            admin = admin_collection.find_one({"admin_number": ADMIN_NUMBER})
+            if not admin:
+                admin_collection.insert_one({
+                    "admin_number": ADMIN_NUMBER,
+                    "password": ADMIN_PASSWORD,
+                    "created_at": datetime.utcnow()
+                })
+                print("Admin user initialized")
+    except Exception as e:
+        print(f"Warning: Could not initialize admin user: {e}")
 
 initialize_admin()
 
@@ -46,6 +83,13 @@ initialize_admin()
 def login():
     """Handle admin login"""
     try:
+        get_db()
+        if admin_collection is None:
+            return jsonify({
+                "success": False,
+                "message": "Database connection not available"
+            }), 503
+            
         data = request.json
         admin_number = data.get('admin_number')
         password = data.get('password')
@@ -77,6 +121,10 @@ def login():
 def next_invoice_number():
     """Get next sequential invoice number for a specific company"""
     try:
+        get_db()
+        if invoices_collection is None:
+            return jsonify({"success": False, "message": "Database connection not available"}), 503
+            
         company_name = request.args.get('company', '')
         if not company_name:
             return jsonify({"success": False, "message": "Company name required"}), 400
@@ -106,6 +154,10 @@ def next_invoice_number():
 def create_invoice():
     """Create and save new invoice"""
     try:
+        get_db()
+        if invoices_collection is None:
+            return jsonify({"success": False, "message": "Database connection not available"}), 503
+            
         data = request.json
         
         # Add timestamp
@@ -130,6 +182,10 @@ def create_invoice():
 def get_invoices():
     """Get all invoices"""
     try:
+        get_db()
+        if invoices_collection is None:
+            return jsonify({"success": False, "message": "Database connection not available"}), 503
+            
         # Get query parameters for filtering
         limit = int(request.args.get('limit', 100))
         skip = int(request.args.get('skip', 0))
@@ -162,6 +218,10 @@ def get_invoices():
 def get_invoice(invoice_number):
     """Get specific invoice by invoice number"""
     try:
+        get_db()
+        if invoices_collection is None:
+            return jsonify({"success": False, "message": "Database connection not available"}), 503
+            
         invoice = invoices_collection.find_one({"invoice_number": invoice_number})
         
         if invoice:
@@ -189,6 +249,10 @@ def get_invoice(invoice_number):
 def get_stats():
     """Get invoice statistics"""
     try:
+        get_db()
+        if invoices_collection is None:
+            return jsonify({"success": False, "message": "Database connection not available"}), 503
+            
         total_invoices = invoices_collection.count_documents({})
         
         # Calculate total revenue
@@ -235,10 +299,18 @@ def get_stats():
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
+    get_db()
+    db_connected = False
+    try:
+        if client and client.server_info():
+            db_connected = True
+    except Exception:
+        pass
+        
     return jsonify({
         "success": True,
         "message": "Server is running",
-        "database": "connected" if client.server_info() else "disconnected"
+        "database": "connected" if db_connected else "disconnected"
     })
 
 if __name__ == '__main__':
